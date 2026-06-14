@@ -50,11 +50,14 @@ type EnginePageData = {
 const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call?month=2026-03";
 
 const navItems = [
-  { label: "The Problem", href: "/#problem", hideMobile: true },
-  { label: "How It Works", href: "/engine", hideMobile: true },
-  { label: "Proof", href: "/#proof", hideMobile: true },
-  { label: "Free MJR", href: "/mjr", hideMobile: true },
-  { label: "Engagements", href: "/#offers", hideMobile: true },
+  { label: "How it works", href: "/#systems" },
+  { label: "Free MJR", href: "/mjr" },
+];
+
+const engagementNavItems = [
+  { label: "Proof Sprint", href: "/sprint" },
+  { label: "Proof Brand", href: "/brand" },
+  { label: "Authority Brand", href: "/authority" },
 ];
 
 const stats = [
@@ -650,15 +653,26 @@ function Header() {
         </button>
         <div className={`nav-links ${open ? "open" : ""}`}>
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.href}
-              href={item.href}
-              className={item.hideMobile ? "hide-m" : undefined}
+              to={item.href}
               onClick={() => setOpen(false)}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
+          <div className="nav-dropdown">
+            <button className="nav-dropdown-trigger" type="button">
+              Engagements
+            </button>
+            <div className="nav-dropdown-menu">
+              {engagementNavItems.map((item) => (
+                <Link key={item.href} to={item.href} onClick={() => setOpen(false)}>
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
           <a
             href={CALENDLY_URL}
             target="_blank"
@@ -679,11 +693,18 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 }
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { hash, pathname } = useLocation();
 
   useEffect(() => {
+    if (hash) {
+      window.setTimeout(() => {
+        document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: "auto", block: "start" });
+      }, 0);
+      return;
+    }
+
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, [pathname]);
+  }, [hash, pathname]);
 
   return null;
 }
@@ -936,7 +957,7 @@ function HomePage() {
               </p>
             </div>
 
-            <div className="center-head rv in subhead-block">
+            <div className="center-head rv in subhead-block" id="systems">
               <div className="seclabel center">The four systems</div>
               <h2>
                 One engine. <span className="thin">Four systems.</span>

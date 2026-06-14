@@ -207,7 +207,8 @@ button {
   gap: 8px;
 }
 
-.nav-links a:not(.btn) {
+.nav-links a:not(.btn),
+.nav-dropdown-trigger {
   font-family: var(--mono);
   font-size: 11.5px;
   letter-spacing: 0.06em;
@@ -218,8 +219,59 @@ button {
   transition: 0.18s;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-dropdown-trigger:hover {
   color: var(--ink);
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.nav-dropdown-trigger::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  min-width: 190px;
+  padding: 8px;
+  background: rgba(10, 14, 13, 0.96);
+  border: 1px solid var(--line-2);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(16px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: 0.18s ease;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
+}
+
+.nav-dropdown-menu a:not(.btn) {
+  display: block;
+  padding: 10px 12px;
 }
 
 .menu-toggle {
@@ -2289,8 +2341,43 @@ footer {
     display: flex;
   }
 
-  .nav-links a:not(.btn) {
+  .nav-links a:not(.btn),
+  .nav-dropdown-trigger {
     padding: 12px;
+  }
+
+  .nav-dropdown {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 4px;
+  }
+
+  .nav-dropdown-trigger {
+    width: 100%;
+    text-align: left;
+    cursor: default;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    min-width: 0;
+    padding: 0 0 4px;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    backdrop-filter: none;
+  }
+
+  .nav-dropdown:hover .nav-dropdown-menu,
+  .nav-dropdown:focus-within .nav-dropdown-menu {
+    transform: none;
+  }
+
+  .nav-dropdown-menu a:not(.btn) {
+    padding: 9px 12px 9px 22px;
   }
 
   .nav-links .btn {
