@@ -1,13 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
-import type { CSSProperties, ReactNode } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import type { CSSProperties, FormEvent, ReactNode } from "react";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, Menu, X } from "lucide-react";
+import { supabase } from "./lib/supabase";
 
-type NavItem = {
-  label: string;
-  href: string;
-  hideMobile?: boolean;
-};
+type ContactMode = "whatsapp" | "email";
 
 type SystemCard = {
   number: string;
@@ -18,10 +15,13 @@ type SystemCard = {
   glow: string;
 };
 
-const navItems: NavItem[] = [
+const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call?month=2026-03";
+
+const navItems = [
   { label: "The Problem", href: "/#problem", hideMobile: true },
   { label: "How It Works", href: "/#engine", hideMobile: true },
   { label: "Proof", href: "/#proof", hideMobile: true },
+  { label: "Free MJR", href: "/mjr", hideMobile: true },
   { label: "Engagements", href: "/#offers", hideMobile: true },
 ];
 
@@ -220,6 +220,13 @@ const offers = [
   },
 ];
 
+const mjrInsights = [
+  "Where high-intent clients search, compare, and choose someone else.",
+  "Which local competitors are capturing the demand you should be winning.",
+  "What your Google reviews, service-area visibility, and proof assets signal to buyers.",
+  "The fastest fixes to stop missed jobs from leaking out of your pipeline.",
+];
+
 function Logo() {
   return (
     <a href="/#top" className="logo" aria-label="Attract Acquisition home">
@@ -264,7 +271,13 @@ function Header() {
               {item.label}
             </a>
           ))}
-          <a href="/#book" className="btn btn-primary" onClick={() => setOpen(false)}>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+            onClick={() => setOpen(false)}
+          >
             Book a strategy call <ArrowRight size={16} />
           </a>
         </div>
@@ -279,10 +292,6 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 
 function HomePage() {
   const [openFaq, setOpenFaq] = useState(0);
-  const systemStyle = useMemo(
-    () => (card: SystemCard) => ({ "--c": card.colorVar, "--cg": card.glow }) as CSSProperties,
-    [],
-  );
 
   return (
     <>
@@ -309,12 +318,15 @@ function HomePage() {
                 <b>proof of your work</b> into a predictable pipeline of booked jobs. Not marketing. <b>Distribution.</b>
               </p>
               <div className="hero-cta">
-                <a href="#book" className="btn btn-primary btn-lg">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
                   Book a free strategy call <ArrowRight size={17} />
                 </a>
                 <a href="#engine" className="btn btn-ghost btn-lg">
                   See how it works
                 </a>
+                <Link to="/mjr" className="btn btn-ghost btn-lg">
+                  Get the free MJR
+                </Link>
               </div>
               <div className="hero-trust">
                 <div className="ht">
@@ -435,21 +447,17 @@ function HomePage() {
             <div className="engine rv in">
               <div className="etag">The formula behind the pipeline</div>
               <div className="eq">
-                <div className="term">
-                  <span className="tw">Proof</span>
-                  <span className="td">you deliver</span>
-                </div>
-                <span className="op">x</span>
-                <div className="term">
-                  <span className="tw">Volume</span>
-                  <span className="td">unignorable</span>
-                </div>
-                <span className="op">x</span>
-                <div className="term">
-                  <span className="tw">Consistency</span>
-                  <span className="td">compounding</span>
-                </div>
-                <span className="op">=</span>
+                {["Proof", "Volume", "Consistency"].map((term, index) => (
+                  <div className="eq-fragment" key={term}>
+                    <div className="term">
+                      <span className="tw">{term}</span>
+                      <span className="td">
+                        {index === 0 ? "you deliver" : index === 1 ? "unignorable" : "compounding"}
+                      </span>
+                    </div>
+                    <span className="op">{index < 2 ? "x" : "="}</span>
+                  </div>
+                ))}
                 <div className="term res">
                   <span className="tw">Brand</span>
                   <span className="td">the obvious choice</span>
@@ -473,7 +481,11 @@ function HomePage() {
             </div>
             <div className="syscards">
               {systems.map((system) => (
-                <article className="sys rv in" style={systemStyle(system)} key={system.number}>
+                <article
+                  className="sys rv in"
+                  style={{ "--c": system.colorVar, "--cg": system.glow } as CSSProperties}
+                  key={system.number}
+                >
                   <div className="snum">System {system.number}</div>
                   <div className="sname">{system.name}</div>
                   <div className="srole">{system.role}</div>
@@ -516,7 +528,9 @@ function HomePage() {
               <h2>
                 What owners <span className="o">say.</span>
               </h2>
-              <p className="sec-intro">We hold ourselves to the same standard we build for you: let the proof do the talking.</p>
+              <p className="sec-intro">
+                We hold ourselves to the same standard we build for you: let the proof do the talking.
+              </p>
             </div>
             <div className="testgrid">
               {testimonials.map((test) => (
@@ -585,7 +599,12 @@ function HomePage() {
                       <li key={point}>{point}</li>
                     ))}
                   </ul>
-                  <a href="#book" className={`btn ${offer.featured ? "btn-primary" : "btn-ghost"}`}>
+                  <a
+                    href={CALENDLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`btn ${offer.featured ? "btn-primary" : "btn-ghost"}`}
+                  >
                     {offer.cta} {offer.featured ? <ArrowRight size={16} /> : null}
                   </a>
                 </article>
@@ -606,7 +625,7 @@ function HomePage() {
                 would work for your trade.
               </p>
               <div className="fcta">
-                <a href="mailto:hello@attractacq.com?subject=Strategy%20call" className="btn btn-primary btn-lg">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
                   Book your free strategy call <ArrowRight size={17} />
                 </a>
               </div>
@@ -626,6 +645,220 @@ function HomePage() {
             </div>
           </div>
         </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function MjrPage() {
+  const navigate = useNavigate();
+  const [businessName, setBusinessName] = useState("");
+  const [location, setLocation] = useState("");
+  const [reviews, setReviews] = useState("");
+  const [contactMode, setContactMode] = useState<ContactMode>("whatsapp");
+  const [contactValue, setContactValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+
+    if (!supabase) {
+      setError("The report form is not connected yet. Please try again shortly.");
+      return;
+    }
+
+    setLoading(true);
+    const { error: submitError } = await supabase.from("audit_claims").insert([
+      {
+        business_name: businessName,
+        location,
+        google_reviews: reviews,
+        contact_method: contactMode,
+        contact_info: contactValue,
+        status: "pending",
+      },
+    ]);
+    setLoading(false);
+
+    if (submitError) {
+      setError("Something went wrong. Please check your details and try again.");
+      return;
+    }
+
+    navigate("/mjr-confirmation", { state: { contactMode } });
+  };
+
+  return (
+    <>
+      <Header />
+      <main className="mjr-page">
+        <section className="mjr-hero">
+          <div className="aurora">
+            <div className="blob b1" />
+            <div className="blob b2" />
+          </div>
+          <div className="wrap mjr-grid">
+            <div className="mjr-copy">
+              <span className="eyebrow">
+                <span className="d" />
+                Free report · no obligation
+              </span>
+              <h1 className="hero-h">
+                Claim your free <span className="o">Missed Jobs Report.</span>
+              </h1>
+              <p className="hero-sub">
+                We analyse your business and local market to show where clients are slipping through the cracks: people
+                who searched, compared, found someone else, and paid them instead.
+              </p>
+              <div className="mjr-proof-row">
+                <div>
+                  <strong>24 hrs</strong>
+                  <span>delivery window</span>
+                </div>
+                <div>
+                  <strong>R0</strong>
+                  <span>cost to claim</span>
+                </div>
+                <div>
+                  <strong>Local</strong>
+                  <span>market data</span>
+                </div>
+              </div>
+              <div className="mjr-panel">
+                <div className="mjr-panel-label">What the report shows</div>
+                <ul>
+                  {mjrInsights.map((insight) => (
+                    <li key={insight}>
+                      <Check size={16} />
+                      {insight}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <form className="mjr-form" onSubmit={handleSubmit}>
+              <span className="form-eyebrow">Step 1 of 1 · 30 seconds</span>
+              <h2>Get your free report</h2>
+              <p>Submit your details and we will send your personalised Missed Jobs Report within 24 hours.</p>
+
+              <label>
+                Business Name
+                <input
+                  type="text"
+                  placeholder="e.g. Cape Cuts Pet Grooming"
+                  value={businessName}
+                  onChange={(event) => setBusinessName(event.target.value)}
+                  required
+                />
+              </label>
+
+              <label>
+                Location / Area Served
+                <input
+                  type="text"
+                  placeholder="e.g. Claremont, Cape Town"
+                  value={location}
+                  onChange={(event) => setLocation(event.target.value)}
+                  required
+                />
+              </label>
+
+              <label>
+                Google Reviews
+                <select value={reviews} onChange={(event) => setReviews(event.target.value)} required>
+                  <option value="">How many Google reviews?</option>
+                  <option value="0">0</option>
+                  <option value="1-10">1-10</option>
+                  <option value="11-30">11-30</option>
+                  <option value="31-60">31-60</option>
+                  <option value="61+">61+</option>
+                </select>
+              </label>
+
+              <div className="mjr-contact">
+                <span>Preferred Contact</span>
+                <div className="contact-toggle">
+                  <button
+                    type="button"
+                    className={contactMode === "whatsapp" ? "active" : ""}
+                    onClick={() => setContactMode("whatsapp")}
+                  >
+                    WhatsApp
+                  </button>
+                  <button
+                    type="button"
+                    className={contactMode === "email" ? "active" : ""}
+                    onClick={() => setContactMode("email")}
+                  >
+                    Email
+                  </button>
+                </div>
+              </div>
+
+              <label>
+                {contactMode === "whatsapp" ? "WhatsApp Number" : "Email Address"}
+                <input
+                  type={contactMode === "whatsapp" ? "tel" : "email"}
+                  placeholder={contactMode === "whatsapp" ? "+27 81 234 5678" : "you@example.com"}
+                  value={contactValue}
+                  onChange={(event) => setContactValue(event.target.value)}
+                  required
+                />
+              </label>
+
+              {error ? <div className="form-error">{error}</div> : null}
+
+              <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>
+                {loading ? "Preparing your report..." : "Send me my free report"} <ArrowRight size={17} />
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function MjrConfirmationPage() {
+  return (
+    <>
+      <Header />
+      <main className="plain-page confirmation-page">
+        <div className="wrap">
+          <div className="confirmation-card">
+            <div className="check-ring">✓</div>
+            <div className="seclabel center">Report in progress</div>
+            <h1>
+              Your report is <span className="o">on its way.</span>
+            </h1>
+            <p>
+              We received your business details. Your personalised Missed Jobs Report will be delivered within 24 hours,
+              with most reports completed sooner during quieter periods.
+            </p>
+            <div className="timeline">
+              <div>
+                <strong>1</strong>
+                <span>Details received</span>
+              </div>
+              <div>
+                <strong>2</strong>
+                <span>Local market checked</span>
+              </div>
+              <div>
+                <strong>3</strong>
+                <span>Report delivered</span>
+              </div>
+            </div>
+            <Link className="btn btn-primary" to="/">
+              Back home <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
       </main>
       <Footer />
     </>
@@ -673,17 +906,18 @@ function Footer() {
               <a href="/#engine">CLOSER System</a>
             </div>
             <div className="fcol">
-              <h5>Engagements</h5>
-              <a href="/#offers">Proof Sprint</a>
-              <a href="/#offers">Proof Brand</a>
-              <a href="/#offers">Authority Brand</a>
+              <h5>Lead Magnet</h5>
+              <a href="/mjr">Missed Jobs Report</a>
+              <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
+                Book a strategy call
+              </a>
             </div>
             <div className="fcol">
               <h5>Company</h5>
               <a href="/#problem">The Problem</a>
               <a href="/#proof">Proof</a>
               <a href="/#faq">FAQ</a>
-              <a href="/#book">Book a call</a>
+              <a href="/#offers">Engagements</a>
             </div>
           </div>
         </div>
@@ -700,6 +934,8 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/mjr" element={<MjrPage />} />
+      <Route path="/mjr-confirmation" element={<MjrConfirmationPage />} />
       <Route path="/engine" element={<PlaceholderPage title="Engine" />} />
       <Route path="/proof" element={<PlaceholderPage title="Proof" />} />
       <Route path="/engagements" element={<PlaceholderPage title="Engagements" />} />
