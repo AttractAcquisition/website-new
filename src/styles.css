@@ -65,8 +65,70 @@ a {
   text-decoration: none;
 }
 
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html.custom-cursor-enabled,
+  html.custom-cursor-enabled body,
+  html.custom-cursor-enabled a,
+  html.custom-cursor-enabled button,
+  html.custom-cursor-enabled input,
+  html.custom-cursor-enabled select,
+  html.custom-cursor-enabled textarea,
+  html.custom-cursor-enabled [role="button"] {
+    cursor: none;
+  }
+}
+
 button {
   font: inherit;
+}
+
+.cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--teal);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  opacity: 0;
+  transform: translate(-40px, -40px);
+  will-change: transform;
+}
+
+.cursor-ring {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(0, 229, 195, 0.35);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transform: translate(-60px, -60px);
+  transition:
+    width 0.25s,
+    height 0.25s,
+    border-color 0.25s,
+    opacity 0.2s;
+  will-change: transform;
+}
+
+.cursor-ring.hovered {
+  width: 48px;
+  height: 48px;
+  border-color: var(--teal);
+}
+
+@media (pointer: coarse), (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .cursor,
+  .cursor-ring {
+    display: none !important;
+  }
 }
 
 .wrap {
@@ -827,6 +889,19 @@ h2 .thin {
   font-size: 14px;
   color: var(--ink-dim);
   line-height: 1.5;
+}
+
+.sys-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--c);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .sys .stage {
@@ -1869,6 +1944,138 @@ footer {
   color: var(--ink-dim);
 }
 
+.engine-page {
+  background:
+    radial-gradient(ellipse 54% 34% at 72% 4%, color-mix(in srgb, var(--system-accent, var(--teal)) 16%, transparent), transparent 72%),
+    var(--bg);
+}
+
+.system-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 150px 0 84px;
+}
+
+.system-hero-grid,
+.system-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.72fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.system-role-card,
+.system-outcomes,
+.related-system-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.system-role-card {
+  padding: 30px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--system-accent, var(--teal)) 10%, transparent), var(--panel));
+}
+
+.system-role-card .etag {
+  color: var(--system-accent, var(--teal));
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.system-role-card strong {
+  display: block;
+  color: var(--system-accent, var(--teal));
+  font-family: var(--disp);
+  font-size: 32px;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.system-role-card p {
+  margin-top: 16px;
+  color: var(--ink-dim);
+}
+
+.system-detail-list {
+  margin-top: 28px;
+  display: grid;
+  gap: 16px;
+}
+
+.system-detail-list p {
+  color: var(--ink-dim);
+  font-size: 17px;
+}
+
+.system-outcomes {
+  padding: 28px;
+}
+
+.system-outcomes ul {
+  display: grid;
+  gap: 14px;
+  list-style: none;
+}
+
+.system-outcomes li {
+  display: flex;
+  gap: 10px;
+  color: var(--ink-dim);
+}
+
+.system-outcomes svg {
+  color: var(--teal);
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+
+.related-systems {
+  padding-top: 44px;
+}
+
+.related-system-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 32px;
+}
+
+.related-system-card {
+  padding: 24px;
+  transition: 0.22s;
+}
+
+.related-system-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--system-accent, var(--teal));
+}
+
+.related-system-card span {
+  color: var(--system-accent, var(--teal));
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.related-system-card strong {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--disp);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.related-system-card p {
+  margin-top: 8px;
+  color: var(--ink-faint);
+  font-size: 13px;
+}
+
 @media (max-width: 980px) {
   .syscards {
     grid-template-columns: 1fr 1fr;
@@ -1882,8 +2089,14 @@ footer {
   .offer-context-grid,
   .offer-detail-grid,
   .offer-stat-grid,
-  .run-grid {
+  .run-grid,
+  .system-hero-grid,
+  .system-grid {
     grid-template-columns: 1fr;
+  }
+
+  .related-system-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .offer-side {
@@ -2002,6 +2215,10 @@ footer {
     padding: 130px 0 72px;
   }
 
+  .system-hero {
+    padding: 130px 0 72px;
+  }
+
   .offer-main-card {
     padding: 24px;
   }
@@ -2017,6 +2234,10 @@ footer {
 
   .offer-actions .btn {
     width: 100%;
+  }
+
+  .related-system-grid {
+    grid-template-columns: 1fr;
   }
 
   section {

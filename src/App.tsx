@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, FormEvent, ReactNode } from "react";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ArrowRight, Check, Menu, X } from "lucide-react";
 import { supabase } from "./lib/supabase";
 
@@ -36,11 +36,22 @@ type OfferPageData = {
   adBudget: string;
 };
 
+type EnginePageData = {
+  slug: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  role: string;
+  outcomes: string[];
+  details: string[];
+  accent: string;
+};
+
 const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call?month=2026-03";
 
 const navItems = [
   { label: "The Problem", href: "/#problem", hideMobile: true },
-  { label: "How It Works", href: "/#engine", hideMobile: true },
+  { label: "How It Works", href: "/engine", hideMobile: true },
   { label: "Proof", href: "/#proof", hideMobile: true },
   { label: "Free MJR", href: "/mjr", hideMobile: true },
   { label: "Engagements", href: "/#offers", hideMobile: true },
@@ -112,6 +123,104 @@ const systems: SystemCard[] = [
       "A conversion site built on the proven CLOSER framework that turns a warmed, believing visitor into a booked, qualified job.",
     colorVar: "var(--sys-closer)",
     glow: "rgba(139,109,255,.4)",
+  },
+];
+
+const enginePages: EnginePageData[] = [
+  {
+    slug: "engine",
+    eyebrow: "The Engine",
+    title: "Attraction Engine",
+    summary:
+      "The operating system that turns your proof into consistent local demand: proof captured from real jobs, distributed at volume, and repeated until your business becomes the obvious choice.",
+    role: "Proof x Volume x Consistency = Brand",
+    outcomes: [
+      "A predictable pipeline built from your actual work",
+      "A market position that compounds instead of resetting every month",
+      "One connected system across ads, proof, story, and conversion",
+    ],
+    details: [
+      "We capture proof from the work you already do, package it into faceless creative, distribute it to your local market, and route qualified enquiries back to you.",
+      "The engine is built for owner-operated trade and service businesses that do good work but lose jobs to more visible competitors.",
+      "Each system hands a warmer, more convinced prospect to the next, so demand is earned through evidence rather than rented through generic marketing.",
+    ],
+    accent: "var(--teal)",
+  },
+  {
+    slug: "ad-system",
+    eyebrow: "System 01",
+    title: "Ad System",
+    summary:
+      "Psychologically sequenced campaigns that put your proof in front of the homeowners most likely to need your service.",
+    role: "Attract · Awareness",
+    outcomes: [
+      "Cold local attention manufactured on demand",
+      "Campaigns built around service area, job value, and buyer intent",
+      "Spend directed toward booked-work signals, not vanity metrics",
+    ],
+    details: [
+      "The Ad System is where your market first sees the evidence. We use Meta campaigns to distribute proof-led creative into the suburbs and buyer segments that matter.",
+      "The goal is not cheap reach. The goal is qualified attention from people who can become booked jobs.",
+      "Campaigns are monitored and adjusted against real signals: enquiries, qualification, booking rate, and the proof themes that create the strongest response.",
+    ],
+    accent: "var(--sys-ad)",
+  },
+  {
+    slug: "proof-system",
+    eyebrow: "System 02",
+    title: "Proof System",
+    summary:
+      "The capture and credibility layer that turns finished jobs into evidence your market can trust before they ever speak to you.",
+    role: "Credibility · Capability",
+    outcomes: [
+      "A simple proof-capture workflow for daily jobs",
+      "Before/after evidence turned into usable assets",
+      "A profile and content base that makes quality visible",
+    ],
+    details: [
+      "Most good trade businesses have proof sitting on phones, in WhatsApp chats, or nowhere at all. The Proof System makes capturing it simple and consistent.",
+      "Your finished work becomes the raw material for reels, ads, stories, landing pages, and sales conversations.",
+      "The system exists to answer the buyer's first question instantly: can this business actually deliver the result I want?",
+    ],
+    accent: "var(--sys-proof)",
+  },
+  {
+    slug: "story-system",
+    eyebrow: "System 03",
+    title: "Story System",
+    summary:
+      "The nurture layer that keeps your proof visible, handles objections, and warms the market until prospects are ready to act.",
+    role: "Convert · Desire",
+    outcomes: [
+      "Repeated visibility with people already exposed to your proof",
+      "Objection-handling content that builds confidence",
+      "More trust before the enquiry ever lands",
+    ],
+    details: [
+      "Not every buyer acts the first time they see your work. The Story System keeps your brand present while their intent builds.",
+      "It uses proof-led narratives, job context, customer outcomes, and objection handling to make your business feel like the safer, smarter choice.",
+      "By the time a prospect reaches the conversion point, they should already understand why you are different and why price is not the only variable.",
+    ],
+    accent: "var(--sys-story)",
+  },
+  {
+    slug: "closer-system",
+    eyebrow: "System 04",
+    title: "CLOSER System",
+    summary:
+      "The conversion layer that turns warmed attention into qualified enquiries, booked calls, and jobs worth quoting.",
+    role: "Decision · Booked",
+    outcomes: [
+      "A conversion path built around buyer psychology",
+      "Lead capture and routing into the right inbox or workflow",
+      "A clearer bridge from proof to booked work",
+    ],
+    details: [
+      "Attention without conversion infrastructure leaks money. The CLOSER System gives warm prospects a clear next step.",
+      "It combines conversion pages, calls to action, qualification logic, and lead routing so the right jobs reach you cleanly.",
+      "The goal is to reduce friction between belief and action: they have seen the proof, understood the story, and now know exactly how to start.",
+    ],
+    accent: "var(--sys-closer)",
   },
 ];
 
@@ -421,6 +530,85 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
   return <div className={`rv in ${className}`}>{children}</div>;
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [pathname]);
+
+  return null;
+}
+
+function CursorTracker() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const cursor = cursorRef.current;
+    const ring = ringRef.current;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!cursor || !ring || !finePointer || reducedMotion) return undefined;
+
+    let mx = window.innerWidth / 2;
+    let my = window.innerHeight / 2;
+    let rx = mx - 16;
+    let ry = my - 16;
+    let raf = 0;
+
+    document.documentElement.classList.add("custom-cursor-enabled");
+
+    const onMove = (event: MouseEvent) => {
+      mx = event.clientX;
+      my = event.clientY;
+      cursor.style.opacity = "1";
+      ring.style.opacity = "1";
+      cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+    };
+
+    const animate = () => {
+      rx += (mx - rx - 16) * 0.12;
+      ry += (my - ry - 16) * 0.12;
+      ring.style.transform = `translate(${rx}px, ${ry}px)`;
+      raf = requestAnimationFrame(animate);
+    };
+
+    const hoverTargets = Array.from(
+      document.querySelectorAll("a, button, input, select, textarea, [role='button']"),
+    );
+    const enter = () => ring.classList.add("hovered");
+    const leave = () => ring.classList.remove("hovered");
+
+    document.addEventListener("mousemove", onMove);
+    hoverTargets.forEach((element) => {
+      element.addEventListener("mouseenter", enter);
+      element.addEventListener("mouseleave", leave);
+    });
+    raf = requestAnimationFrame(animate);
+
+    return () => {
+      document.removeEventListener("mousemove", onMove);
+      hoverTargets.forEach((element) => {
+        element.removeEventListener("mouseenter", enter);
+        element.removeEventListener("mouseleave", leave);
+      });
+      cancelAnimationFrame(raf);
+      ring.classList.remove("hovered");
+      document.documentElement.classList.remove("custom-cursor-enabled");
+    };
+  }, [pathname]);
+
+  return (
+    <>
+      <div className="cursor" ref={cursorRef} />
+      <div className="cursor-ring" ref={ringRef} />
+    </>
+  );
+}
+
 function HomePage() {
   const [openFaq, setOpenFaq] = useState(0);
 
@@ -611,7 +799,7 @@ function HomePage() {
               </p>
             </div>
             <div className="syscards">
-              {systems.map((system) => (
+              {systems.map((system, index) => (
                 <article
                   className="sys rv in"
                   style={{ "--c": system.colorVar, "--cg": system.glow } as CSSProperties}
@@ -621,6 +809,9 @@ function HomePage() {
                   <div className="sname">{system.name}</div>
                   <div className="srole">{system.role}</div>
                   <p>{system.description}</p>
+                  <Link to={`/${enginePages[index + 1].slug}`} className="sys-link">
+                    Explore system <ArrowRight size={15} />
+                  </Link>
                   <span className="stage">{system.number}</span>
                 </article>
               ))}
@@ -1234,6 +1425,111 @@ function OfferFinalCta() {
   );
 }
 
+function EnginePage({ page }: { page: EnginePageData }) {
+  const relatedPages = enginePages.filter((item) => item.slug !== page.slug);
+
+  return (
+    <>
+      <Header />
+      <main className="engine-page">
+        <header className="system-hero" style={{ "--system-accent": page.accent } as CSSProperties}>
+          <div className="aurora">
+            <div className="blob b1" />
+            <div className="blob b2" />
+          </div>
+          <div className="wrap system-hero-grid">
+            <div>
+              <span className="eyebrow">
+                <span className="d" />
+                {page.eyebrow}
+              </span>
+              <h1 className="hero-h">
+                {page.title.includes(" ") ? (
+                  <>
+                    {page.title.split(" ").slice(0, -1).join(" ")}{" "}
+                    <span className="o">{page.title.split(" ").slice(-1)}</span>
+                  </>
+                ) : (
+                  <span className="o">{page.title}</span>
+                )}
+              </h1>
+              <p className="hero-sub">{page.summary}</p>
+              <div className="hero-cta">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
+                  Book your strategy call <ArrowRight size={17} />
+                </a>
+                <Link to="/mjr" className="btn btn-ghost btn-lg">
+                  Get the free MJR
+                </Link>
+              </div>
+            </div>
+            <div className="system-role-card">
+              <div className="etag">Role in the engine</div>
+              <strong>{page.role}</strong>
+              <p>Built for proof-led distribution, not generic content management.</p>
+            </div>
+          </div>
+        </header>
+
+        <section>
+          <div className="wrap system-grid">
+            <div>
+              <div className="seclabel">What it does</div>
+              <h2>
+                How this creates <span className="o">booked work.</span>
+              </h2>
+              <div className="system-detail-list">
+                {page.details.map((detail) => (
+                  <p key={detail}>{detail}</p>
+                ))}
+              </div>
+            </div>
+            <div className="system-outcomes">
+              <div className="mjr-panel-label">Outcomes</div>
+              <ul>
+                {page.outcomes.map((outcome) => (
+                  <li key={outcome}>
+                    <Check size={16} />
+                    {outcome}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="related-systems">
+          <div className="wrap">
+            <div className="center-head">
+              <div className="seclabel center">The full system</div>
+              <h2>
+                Explore the <span className="o">engine.</span>
+              </h2>
+            </div>
+            <div className="related-system-grid">
+              {relatedPages.map((item) => (
+                <Link
+                  to={`/${item.slug}`}
+                  className="related-system-card"
+                  style={{ "--system-accent": item.accent } as CSSProperties}
+                  key={item.slug}
+                >
+                  <span>{item.eyebrow}</span>
+                  <strong>{item.title}</strong>
+                  <p>{item.role}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <OfferFinalCta />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <>
@@ -1268,11 +1564,11 @@ function Footer() {
           <div className="fcols">
             <div className="fcol">
               <h5>The Engine</h5>
-              <a href="/#engine">Attraction Engine</a>
-              <a href="/#engine">Ad System</a>
-              <a href="/#engine">Proof System</a>
-              <a href="/#engine">Story System</a>
-              <a href="/#engine">CLOSER System</a>
+              <Link to="/engine">Attraction Engine</Link>
+              <Link to="/ad-system">Ad System</Link>
+              <Link to="/proof-system">Proof System</Link>
+              <Link to="/story-system">Story System</Link>
+              <Link to="/closer-system">CLOSER System</Link>
             </div>
             <div className="fcol">
               <h5>Engagements</h5>
@@ -1307,17 +1603,26 @@ function Footer() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/mjr" element={<MjrPage />} />
-      <Route path="/mjr-confirmation" element={<MjrConfirmationPage />} />
-      <Route path="/sprint" element={<OfferPage offer={offerPages[0]} />} />
-      <Route path="/brand" element={<OfferPage offer={offerPages[1]} />} />
-      <Route path="/authority" element={<OfferPage offer={offerPages[2]} />} />
-      <Route path="/engine" element={<PlaceholderPage title="Engine" />} />
-      <Route path="/proof" element={<PlaceholderPage title="Proof" />} />
-      <Route path="/engagements" element={<PlaceholderPage title="Engagements" />} />
-      <Route path="*" element={<PlaceholderPage title="Page not found" />} />
-    </Routes>
+    <>
+      <ScrollToTop />
+      <CursorTracker />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/mjr" element={<MjrPage />} />
+        <Route path="/mjr-confirmation" element={<MjrConfirmationPage />} />
+        <Route path="/sprint" element={<OfferPage offer={offerPages[0]} />} />
+        <Route path="/brand" element={<OfferPage offer={offerPages[1]} />} />
+        <Route path="/authority" element={<OfferPage offer={offerPages[2]} />} />
+        <Route path="/the-engine" element={<EnginePage page={enginePages[0]} />} />
+        <Route path="/engine" element={<EnginePage page={enginePages[0]} />} />
+        <Route path="/ad-system" element={<EnginePage page={enginePages[1]} />} />
+        <Route path="/proof-system" element={<EnginePage page={enginePages[2]} />} />
+        <Route path="/story-system" element={<EnginePage page={enginePages[3]} />} />
+        <Route path="/closer-system" element={<EnginePage page={enginePages[4]} />} />
+        <Route path="/proof" element={<PlaceholderPage title="Proof" />} />
+        <Route path="/engagements" element={<PlaceholderPage title="Engagements" />} />
+        <Route path="*" element={<PlaceholderPage title="Page not found" />} />
+      </Routes>
+    </>
   );
 }

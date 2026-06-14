@@ -2,7 +2,19 @@ import { copyFileSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 const dist = "dist";
-const routes = ["mjr", "mjr-confirmation", "sprint", "brand", "authority"];
+const routes = [
+  "mjr",
+  "mjr-confirmation",
+  "sprint",
+  "brand",
+  "authority",
+  "the-engine",
+  "engine",
+  "ad-system",
+  "proof-system",
+  "story-system",
+  "closer-system",
+];
 
 copyFileSync(join(dist, "index.html"), join(dist, "404.html"));
 
