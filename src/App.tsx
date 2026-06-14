@@ -208,17 +208,17 @@ const enginePages: EnginePageData[] = [
     eyebrow: "System 04",
     title: "CLOSER System",
     summary:
-      "The conversion layer that turns warmed attention into qualified enquiries, booked calls, and jobs worth quoting.",
-    role: "Decision · Booked",
+      "The decision layer that turns warmed, proof-aware visitors into qualified enquiries, booked calls, and jobs worth quoting.",
+    role: "Decision · Conversion · Booked",
     outcomes: [
-      "A conversion path built around buyer psychology",
-      "Lead capture and routing into the right inbox or workflow",
-      "A clearer bridge from proof to booked work",
+      "A focused conversion page built around one outcome and one next step",
+      "Proof, objections, guarantees, and reviews carried into the moment of decision",
+      "High-intent visitors routed into bookings, quote requests, lead forms, or DMs",
     ],
     details: [
-      "Attention without conversion infrastructure leaks money. The CLOSER System gives warm prospects a clear next step.",
-      "It combines conversion pages, calls to action, qualification logic, and lead routing so the right jobs reach you cleanly.",
-      "The goal is to reduce friction between belief and action: they have seen the proof, understood the story, and now know exactly how to start.",
+      "Attention without a strong decision page leaks money. Once someone has seen your ads, checked your proof, and warmed up through your content, the website has one job: make the next step obvious and safe.",
+      "The CLOSER System turns your offer, proof, reviews, guarantee, and buying objections into a focused page that guides the visitor from recognition to action.",
+      "Every page is built mobile-first because most traffic arrives from social. The copy is direct, the proof is visible, and the call to action stays consistent from the first screen to the final close.",
     ],
     accent: "var(--sys-closer)",
   },
@@ -332,6 +332,43 @@ const storySystemFlow = [
     step: "03",
     title: "Move",
     copy: "When the audience is ready, we give one clear action: DM, tap, book, claim, or request the next step.",
+  },
+];
+
+const closerSystemClientSections = [
+  {
+    title: "One page, one decision",
+    copy: "The page is not a brochure. It focuses on the single outcome your buyer wants and repeats one clear action instead of scattering attention across services and links.",
+  },
+  {
+    title: "Proof at the point of action",
+    copy: "Before/afters, reviews, guarantees, credentials, and case evidence sit inside the conversion path, so trust is reinforced exactly when the buyer is deciding.",
+  },
+  {
+    title: "Objections handled before the call",
+    copy: "Price anxiety, trust concerns, timing, risk, and uncertainty are addressed on the page with evidence, not vague reassurance.",
+  },
+  {
+    title: "Built for phone traffic",
+    copy: "The experience is designed for fast mobile decisions: clear first screen, short sections, repeated CTA, quick load, and no unnecessary escape routes.",
+  },
+];
+
+const closerSystemFlow = [
+  {
+    step: "01",
+    title: "Clarify",
+    copy: "The first screen confirms the exact result they came for, where you serve, and the one next step they can take.",
+  },
+  {
+    step: "02",
+    title: "Convince",
+    copy: "The page mirrors their problem, explains why ordinary fixes fail, and shows the proof that your approach gets the outcome.",
+  },
+  {
+    step: "03",
+    title: "Convert",
+    copy: "Reviews, guarantees, FAQs, and a simple final action remove hesitation and route the enquiry into the right workflow.",
   },
 ];
 
@@ -1701,6 +1738,40 @@ function EnginePage({ page }: { page: EnginePageData }) {
               <div className="story-flow">
                 {storySystemFlow.map((item) => (
                   <div className="story-flow-step" key={item.step}>
+                    <strong>{item.step}</strong>
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {page.slug === "closer-system" ? (
+          <section className="closer-client-section">
+            <div className="wrap">
+              <div className="center-head">
+                <div className="seclabel center">Client-facing delivery</div>
+                <h2>
+                  Warm prospects need a <span className="o">clear close.</span>
+                </h2>
+                <p className="sec-intro">
+                  The visible output is a focused conversion page that takes people who already believe the proof and
+                  gives them a simple, low-friction path to become a real lead.
+                </p>
+              </div>
+              <div className="closer-client-grid">
+                {closerSystemClientSections.map((section) => (
+                  <article className="closer-client-card" key={section.title}>
+                    <h3>{section.title}</h3>
+                    <p>{section.copy}</p>
+                  </article>
+                ))}
+              </div>
+              <div className="closer-flow">
+                {closerSystemFlow.map((item) => (
+                  <div className="closer-flow-step" key={item.step}>
                     <strong>{item.step}</strong>
                     <h3>{item.title}</h3>
                     <p>{item.copy}</p>
