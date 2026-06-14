@@ -15,6 +15,27 @@ type SystemCard = {
   glow: string;
 };
 
+type OfferPageData = {
+  slug: "sprint" | "brand" | "authority";
+  eyebrow: string;
+  sectionNumber: string;
+  badge: string;
+  offerNumber: string;
+  name: string;
+  headline: string;
+  intro: string;
+  items: Array<{ label: string; value: string }>;
+  totalLabel: string;
+  totalValue: string;
+  priceLabel: string;
+  price: string;
+  priceNote: string;
+  guaranteeTitle: string;
+  guaranteeText: string;
+  irresistible: string;
+  adBudget: string;
+};
+
 const CALENDLY_URL = "https://calendly.com/attractacquisition/attract-acquisition-1-1-call?month=2026-03";
 
 const navItems = [
@@ -190,6 +211,7 @@ const offers = [
       "The fastest honest signal, no lock-in",
     ],
     cta: "Start a Sprint",
+    href: "/sprint",
     featured: false,
   },
   {
@@ -203,6 +225,7 @@ const offers = [
       "A predictable, owned pipeline",
     ],
     cta: "Build my engine",
+    href: "/brand",
     featured: true,
   },
   {
@@ -216,8 +239,116 @@ const offers = [
       "The full weight of the engine, compounding",
     ],
     cta: "Own my category",
+    href: "/authority",
     featured: false,
   },
+];
+
+const offerPages: OfferPageData[] = [
+  {
+    slug: "sprint",
+    eyebrow: "Start here",
+    sectionNumber: "02",
+    badge: "Offer 01 / 03",
+    offerNumber: "Proof Sprint",
+    name: "Proof Sprint",
+    headline: "See it work before you commit a cent of risk.",
+    intro:
+      "A 14-day proof-of-concept for the owner who wants evidence, not promises. We set up the engine, ship your first proof, launch your first campaign, and land your first qualified leads.",
+    items: [
+      { label: "Proof-capture system set up on your business", value: "R4,000" },
+      { label: "Your first 10-12 faceless reels, produced", value: "R6,000" },
+      { label: "Meta campaign built & launched in your suburbs", value: "R6,000" },
+      { label: "Your personalised Missed Jobs Report", value: "R4,000" },
+      { label: "14 days fully managed + your first qualified leads", value: "R5,000" },
+    ],
+    totalLabel: "Total value",
+    totalValue: "R25,000",
+    priceLabel: "Your investment · once-off",
+    price: "R7,500",
+    priceNote: "≈ $500 · 14 days",
+    guaranteeTitle: "Zero-risk guarantee",
+    guaranteeText: "Proof shipped, campaigns live and your first leads in 14 days, or you don't pay for the Sprint.",
+    irresistible:
+      'R25,000 of setup, live proof and an MJR, with the risk reversed to zero, for R7,500. The only real question ("does this work for my business?") gets answered by saying yes.',
+    adBudget:
+      "You cover a small managed test ad budget from ~R2,500, kept separate so the R7,500 stays a clean service fee.",
+  },
+  {
+    slug: "brand",
+    eyebrow: "Most popular",
+    sectionNumber: "03",
+    badge: "Offer 02 / 03",
+    offerNumber: "Proof Brand",
+    name: "Proof Brand",
+    headline: "The engine that keeps the right jobs coming, every month.",
+    intro:
+      "The monthly distribution engine, and where most clients live. Consistent proof, content and campaigns that keep qualified jobs landing without you finding the time.",
+    items: [
+      { label: "~25 faceless reels per month, produced for you", value: "R15,000" },
+      { label: "Meta ad campaigns, built & optimised by certified hands", value: "R19,500" },
+      { label: "Proof-capture app + the three-tap workflow", value: "R3,500" },
+      { label: "Monthly Missed Jobs Report refresh", value: "R5,000" },
+      { label: "Leads routed to your inbox + client portal", value: "R4,000" },
+      { label: "Weekly review & reporting + quarterly strategy + reactivation campaign", value: "R13,000" },
+    ],
+    totalLabel: "Total value / month",
+    totalValue: "R60,000",
+    priceLabel: "Your investment · monthly",
+    price: "R32,500 / mo",
+    priceNote: "≈ $2,000 / mo · month-to-month, no lock-in",
+    guaranteeTitle: "~46% under à la carte",
+    guaranteeText: "One integrated system instead of five vendors, and it pays for itself at ~2 recovered jobs a month.",
+    irresistible:
+      "The same outcome a five-vendor stack delivers, for roughly half the assembled cost, run as one engine with no contract trapping you. You stay because it works.",
+    adBudget: "Recommended ad budget ~R8,000-15,000/mo, yours, billed separately or paid to Meta directly.",
+  },
+  {
+    slug: "authority",
+    eyebrow: "Scale · by application",
+    sectionNumber: "04",
+    badge: "Offer 03 / 03",
+    offerNumber: "Authority Brand",
+    name: "Authority Brand",
+    headline: "Own your category in your city.",
+    intro:
+      "For the business ready to be the name. Everything in Proof Brand, scaled across channels and proof volume, with the one thing money can't usually buy: your competitors locked out of your area.",
+    items: [
+      { label: "~45+ faceless reels per month, across formats", value: "R26,000" },
+      { label: "Multi-channel ads: Meta + Google / YouTube", value: "R40,000" },
+      { label: "Proof app, monthly MJR, lead routing, portal & brand", value: "R17,500" },
+      { label: "Priority account management & advanced strategy", value: "R26,000" },
+      { label: "Category exclusivity: we won't market a rival in your area", value: "Priceless" },
+    ],
+    totalLabel: "Tangible value / month",
+    totalValue: "R109,500 + exclusivity",
+    priceLabel: "Your investment · monthly",
+    price: "R115,000 / mo",
+    priceNote: "≈ $7,000 / mo · one client per category, per metro",
+    guaranteeTitle: "Exclusivity included",
+    guaranteeText:
+      "No competitor can buy the same engine in your suburbs. That moat is the reason to move now.",
+    irresistible:
+      "For a market leader, knowing no rival can run this engine in your area is worth more than the fee itself. You're not buying reach. You're buying the category.",
+    adBudget:
+      "Recommended ad budget from ~R25,000/mo across channels, yours, billed separately. Limited availability per area.",
+  },
+];
+
+const compareRows = [
+  ["Faceless reels", "10-12", "~25/mo", "~45+/mo"],
+  ["Meta ad campaigns", "✓", "✓", "✓"],
+  ["Multi-channel (Google / YouTube)", "-", "-", "✓"],
+  ["Proof-capture app", "✓", "✓", "✓"],
+  ["Missed Jobs Report", "Once", "Monthly", "Monthly"],
+  ["Lead routing + client portal", "✓", "✓", "✓"],
+  ["Weekly review & reporting", "-", "✓", "✓"],
+  ["Quarterly strategy session", "-", "✓", "✓"],
+  ["Priority account management", "-", "-", "✓"],
+  ["Category exclusivity", "-", "-", "✓"],
+  ["14-day guarantee", "✓", "-", "-"],
+  ["Commitment", "14 days", "Month-to-month", "Application"],
+  ["Investment", "R7,500", "R32,500/mo", "R115,000/mo"],
 ];
 
 const mjrInsights = [
@@ -599,14 +730,9 @@ function HomePage() {
                       <li key={point}>{point}</li>
                     ))}
                   </ul>
-                  <a
-                    href={CALENDLY_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`btn ${offer.featured ? "btn-primary" : "btn-ghost"}`}
-                  >
+                  <Link to={offer.href} className={`btn ${offer.featured ? "btn-primary" : "btn-ghost"}`}>
                     {offer.cta} {offer.featured ? <ArrowRight size={16} /> : null}
-                  </a>
+                  </Link>
                 </article>
               ))}
             </div>
@@ -865,6 +991,249 @@ function MjrConfirmationPage() {
   );
 }
 
+function OfferPage({ offer }: { offer: OfferPageData }) {
+  return (
+    <>
+      <Header />
+      <main className="offer-page">
+        <header className="offer-hero">
+          <div className="aurora">
+            <div className="blob b1" />
+            <div className="blob b2" />
+          </div>
+          <div className="wrap">
+            <div className="offer-kicker">Attract Acquisition · Pricing & Offers · 2026</div>
+            <div className="offer-hero-grid">
+              <div>
+                <span className="eyebrow">
+                  <span className="d" />
+                  Distribution partner · Cape Town trade & service
+                </span>
+                <h1 className="hero-h">
+                  Pricing <span className="o">& Offers.</span>
+                </h1>
+                <p className="hero-sub">
+                  Three ways to turn your proof into booked jobs, built, run, and guaranteed by your distribution
+                  partner.
+                </p>
+              </div>
+              <div className="offer-engine-card">
+                <div className="etag">The Attraction Engine</div>
+                <div className="mini-equation">
+                  <span>Proof</span>
+                  <b>×</b>
+                  <span>Volume</span>
+                  <b>×</b>
+                  <span>Consistency</span>
+                  <b>=</b>
+                  <span>Brand</span>
+                </div>
+                <p>Attract Acquisition (Pty) Ltd · attractacq.com</p>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section className="offer-context">
+          <div className="wrap">
+            <div className="offer-context-grid">
+              <div>
+                <div className="seclabel">What you're really buying</div>
+                <h2>
+                  Not posts. Not brand awareness. <span className="o">Booked jobs.</span>
+                </h2>
+                <p className="sec-intro">
+                  Every package below is priced against one thing: the work it puts back in your diary. Your Missed Jobs
+                  Report already shows the gap, the jobs slipping to more-visible competitors every month. These offers
+                  close it.
+                </p>
+              </div>
+              <div className="payback-card">
+                <strong>Proof Brand pays for itself at ~2 recovered jobs a month.</strong>
+                <p>
+                  At a R18,500 average job, two extra wins a month covers the fee. Pool, roofing and renovation jobs run
+                  far higher. The value is measured in booked work, not deliverables.
+                </p>
+              </div>
+            </div>
+            <div className="offer-stat-grid">
+              <div>
+                <span>Done for you</span>
+                <strong>100%</strong>
+                <p>Proof, content, and campaigns run end-to-end.</p>
+              </div>
+              <div>
+                <span>Premium tier</span>
+                <strong>Top 15%</strong>
+                <p>Priced where proof-led distribution partners sit.</p>
+              </div>
+              <div>
+                <span>Your category</span>
+                <strong>1 only</strong>
+                <p>One client per trade, per area.</p>
+              </div>
+            </div>
+            <p className="price-note">
+              Each figure is the management & production fee. Your advertising budget is separate, paid to Meta directly
+              or billed as a pass-through, so your fee stays clean and your spend stays yours.
+            </p>
+          </div>
+        </section>
+
+        <section className="offer-detail">
+          <div className="wrap offer-detail-grid">
+            <aside className="offer-side">
+              <span>{offer.sectionNumber}</span>
+              <strong>{offer.eyebrow}</strong>
+              <p>{offer.badge}</p>
+            </aside>
+            <article className="offer-main-card">
+              {offer.slug === "brand" ? <div className="obadge">Most popular</div> : null}
+              <div className="otier">{offer.badge}</div>
+              <h2>{offer.name}</h2>
+              <h3>"{offer.headline}"</h3>
+              <p>{offer.intro}</p>
+              <div className="value-stack">
+                {offer.items.map((item) => (
+                  <div className="value-row" key={item.label}>
+                    <span>
+                      <Check size={16} />
+                      {item.label}
+                    </span>
+                    <strong>{item.value}</strong>
+                  </div>
+                ))}
+              </div>
+              <div className="pricing-box">
+                <div>
+                  <span>{offer.totalLabel}</span>
+                  <strong>{offer.totalValue}</strong>
+                </div>
+                <div>
+                  <span>{offer.priceLabel}</span>
+                  <strong>{offer.price}</strong>
+                  <em>{offer.priceNote}</em>
+                </div>
+              </div>
+              <div className="guarantee-box">
+                <strong>{offer.guaranteeTitle}</strong>
+                <p>{offer.guaranteeText}</p>
+              </div>
+              <div className="why-box">
+                <strong>Why it's irresistible:</strong> {offer.irresistible}
+              </div>
+              <p className="ad-budget">{offer.adBudget}</p>
+              <div className="offer-actions">
+                <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
+                  Book your strategy call <ArrowRight size={17} />
+                </a>
+                <Link to="/mjr" className="btn btn-ghost btn-lg">
+                  Get your free Missed Jobs Report
+                </Link>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <OfferCompare />
+        <HowItRuns />
+        <OfferFinalCta />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function OfferCompare() {
+  return (
+    <section className="offer-compare">
+      <div className="wrap">
+        <div className="center-head">
+          <div className="seclabel center">Side by side</div>
+          <h2>
+            Compare the <span className="o">three.</span>
+          </h2>
+        </div>
+        <div className="compare-table">
+          <div className="compare-head">
+            <span>What's included</span>
+            <span>Proof Sprint</span>
+            <span>Proof Brand</span>
+            <span>Authority</span>
+          </div>
+          {compareRows.map((row) => (
+            <div className="compare-row-offer" key={row[0]}>
+              {row.map((cell) => (
+                <span key={cell}>{cell}</span>
+              ))}
+            </div>
+          ))}
+        </div>
+        <p className="price-note">
+          Prices shown in ZAR. Advertising budget is separate on all tiers.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function HowItRuns() {
+  return (
+    <section className="how-runs">
+      <div className="wrap">
+        <div className="seclabel">How it runs</div>
+        <h2>
+          Three moving parts. <span className="o">None of them yours.</span>
+        </h2>
+        <div className="run-grid">
+          <div>
+            <strong>01</strong>
+            <h3>You send proof</h3>
+            <p>Finish a job, send the before/after in three taps. The only thing we need from you.</p>
+          </div>
+          <div>
+            <strong>02</strong>
+            <h3>We take it to market</h3>
+            <p>We turn it into content and campaigns, in front of the right homeowners in your suburbs.</p>
+          </div>
+          <div>
+            <strong>03</strong>
+            <h3>Jobs come to you</h3>
+            <p>Qualified enquiries land in your inbox. You quote the ones you want. The brand compounds.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function OfferFinalCta() {
+  return (
+    <section>
+      <div className="wrap">
+        <div className="finalcta">
+          <div className="fk">The next move</div>
+          <h2>
+            Be the first name <span className="o">they call.</span>
+          </h2>
+          <p>
+            Book a short strategy call. We'll check whether your area is still open and show you exactly what the engine
+            would do for your business.
+          </p>
+          <div className="fcta">
+            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
+              Book your strategy call <ArrowRight size={17} />
+            </a>
+            <Link to="/mjr" className="btn btn-ghost btn-lg">
+              Get your free Missed Jobs Report
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <>
@@ -906,6 +1275,12 @@ function Footer() {
               <a href="/#engine">CLOSER System</a>
             </div>
             <div className="fcol">
+              <h5>Engagements</h5>
+              <Link to="/sprint">Proof Sprint</Link>
+              <Link to="/brand">Proof Brand</Link>
+              <Link to="/authority">Authority Brand</Link>
+            </div>
+            <div className="fcol">
               <h5>Lead Magnet</h5>
               <a href="/mjr">Missed Jobs Report</a>
               <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
@@ -936,6 +1311,9 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/mjr" element={<MjrPage />} />
       <Route path="/mjr-confirmation" element={<MjrConfirmationPage />} />
+      <Route path="/sprint" element={<OfferPage offer={offerPages[0]} />} />
+      <Route path="/brand" element={<OfferPage offer={offerPages[1]} />} />
+      <Route path="/authority" element={<OfferPage offer={offerPages[2]} />} />
       <Route path="/engine" element={<PlaceholderPage title="Engine" />} />
       <Route path="/proof" element={<PlaceholderPage title="Proof" />} />
       <Route path="/engagements" element={<PlaceholderPage title="Engagements" />} />
