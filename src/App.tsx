@@ -151,17 +151,17 @@ const enginePages: EnginePageData[] = [
     eyebrow: "System 01",
     title: "Ad System",
     summary:
-      "Psychologically sequenced campaigns that put your proof in front of the homeowners most likely to need your service.",
-    role: "Attract · Awareness",
+      "The paid distribution layer that turns cold local attention into warm, qualified demand by putting proof of your work in front of the right homeowners, in the right sequence.",
+    role: "Attract · Awareness · Demand",
     outcomes: [
-      "Cold local attention manufactured on demand",
-      "Campaigns built around service area, job value, and buyer intent",
-      "Spend directed toward booked-work signals, not vanity metrics",
+      "Your best proof reaches people who have never heard of you",
+      "Campaigns move prospects from awareness to trust before asking for action",
+      "Ad spend is judged against enquiries, conversations, and booked-work signals",
     ],
     details: [
-      "The Ad System is where your market first sees the evidence. We use Meta campaigns to distribute proof-led creative into the suburbs and buyer segments that matter.",
-      "The goal is not cheap reach. The goal is qualified attention from people who can become booked jobs.",
-      "Campaigns are monitored and adjusted against real signals: enquiries, qualification, booking rate, and the proof themes that create the strongest response.",
+      "The Ad System is not post boosting. It is a structured campaign layer that introduces your work to cold local homeowners, warms the people who engage, and sends the most interested prospects into the next step.",
+      "We lead with proof, not hype: finished work, visible standards, customer outcomes, process footage, and the specific problems your market already recognises.",
+      "The system is built to learn quickly. We test which proof, pain points, and offers create the strongest response, then move budget toward the combinations most likely to become qualified enquiries.",
     ],
     accent: "var(--sys-ad)",
   },
@@ -221,6 +221,43 @@ const enginePages: EnginePageData[] = [
       "The goal is to reduce friction between belief and action: they have seen the proof, understood the story, and now know exactly how to start.",
     ],
     accent: "var(--sys-closer)",
+  },
+];
+
+const adSystemClientSections = [
+  {
+    title: "No random boosting",
+    copy: "Every campaign has a job: earn attention, build belief, or create a qualified next step. We do not spend your budget on disconnected posts and hope the market figures it out.",
+  },
+  {
+    title: "Proof before pressure",
+    copy: "Cold prospects are not asked to book before they trust you. They see the work, understand the problem, recognise your standard, and only then get a clear call to action.",
+  },
+  {
+    title: "Local demand focus",
+    copy: "Campaigns are shaped around your service area, buyer profile, job value, and available proof, so your spend is aimed at the jobs you actually want to quote.",
+  },
+  {
+    title: "Measured by pipeline",
+    copy: "The reporting lens is simple: what attention became engagement, what engagement became enquiry, and what enquiries are worth following up.",
+  },
+];
+
+const adSystemFlow = [
+  {
+    step: "01",
+    title: "Find the trigger",
+    copy: "We test the proof and problem frames that make your local market stop, watch, and self-identify.",
+  },
+  {
+    step: "02",
+    title: "Warm the interested",
+    copy: "People who engage see deeper proof: process, standards, reviews, outcomes, and reasons to trust your business.",
+  },
+  {
+    step: "03",
+    title: "Create the next step",
+    copy: "Warm prospects are directed into the right action: message, lead form, quote request, or booking path depending on the offer.",
   },
 ];
 
@@ -1497,6 +1534,40 @@ function EnginePage({ page }: { page: EnginePageData }) {
             </div>
           </div>
         </section>
+
+        {page.slug === "ad-system" ? (
+          <section className="ad-client-section">
+            <div className="wrap">
+              <div className="center-head">
+                <div className="seclabel center">Client-facing delivery</div>
+                <h2>
+                  Campaigns built to <span className="o">earn belief.</span>
+                </h2>
+                <p className="sec-intro">
+                  The visible output is simple: your best proof shows up consistently in front of the right local
+                  prospects, then follows up with the proof and next step they need to become a real enquiry.
+                </p>
+              </div>
+              <div className="ad-client-grid">
+                {adSystemClientSections.map((section) => (
+                  <article className="ad-client-card" key={section.title}>
+                    <h3>{section.title}</h3>
+                    <p>{section.copy}</p>
+                  </article>
+                ))}
+              </div>
+              <div className="ad-flow">
+                {adSystemFlow.map((item) => (
+                  <div className="ad-flow-step" key={item.step}>
+                    <strong>{item.step}</strong>
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className="related-systems">
           <div className="wrap">
