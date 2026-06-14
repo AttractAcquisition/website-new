@@ -189,17 +189,17 @@ const enginePages: EnginePageData[] = [
     eyebrow: "System 03",
     title: "Story System",
     summary:
-      "The nurture layer that keeps your proof visible, handles objections, and warms the market until prospects are ready to act.",
-    role: "Convert · Desire",
+      "The nurture and conversion layer that turns warm attention into real intent by staying visible, answering doubts, and giving prospects the right next step at the right moment.",
+    role: "Nurture · Desire · Action",
     outcomes: [
-      "Repeated visibility with people already exposed to your proof",
-      "Objection-handling content that builds confidence",
-      "More trust before the enquiry ever lands",
+      "Warm prospects keep seeing relevant proof after they visit your profile",
+      "Common doubts are answered before they become lost enquiries",
+      "Interested viewers are moved toward DMs, quote requests, bookings, or lead capture",
     ],
     details: [
-      "Not every buyer acts the first time they see your work. The Story System keeps your brand present while their intent builds.",
-      "It uses proof-led narratives, job context, customer outcomes, and objection handling to make your business feel like the safer, smarter choice.",
-      "By the time a prospect reaches the conversion point, they should already understand why you are different and why price is not the only variable.",
+      "Not every buyer acts the first time they see your work. The Story System keeps your brand present while their intent builds and their questions become clearer.",
+      "We use short, proof-led story content to teach, reassure, answer objections, create urgency when it is honest, and make action feel natural instead of forced.",
+      "By the time a prospect reaches the conversion point, they should already understand why you are different, why the result matters, and what to do next.",
     ],
     accent: "var(--sys-story)",
   },
@@ -295,6 +295,43 @@ const proofSystemFlow = [
     step: "03",
     title: "Compound",
     copy: "Every week adds more credibility, creating a proof wall competitors cannot fake quickly.",
+  },
+];
+
+const storySystemClientSections = [
+  {
+    title: "Warm traffic does not go cold",
+    copy: "People who have seen your ads or checked your profile continue seeing useful, relevant proof instead of being left to forget you.",
+  },
+  {
+    title: "Objections get answered publicly",
+    copy: "Price, trust, timing, risk, and uncertainty are handled through content before the prospect ever needs to ask.",
+  },
+  {
+    title: "Conversion feels earned",
+    copy: "The ask comes after credibility has been built, so the next step feels like the obvious move rather than a hard sell.",
+  },
+  {
+    title: "Your audience keeps refilling",
+    copy: "Engagement-led content keeps the warm audience active, giving ads and conversion pages more interested people to work with.",
+  },
+];
+
+const storySystemFlow = [
+  {
+    step: "01",
+    title: "Warm",
+    copy: "We build familiarity and authority with people who have already seen your proof.",
+  },
+  {
+    step: "02",
+    title: "Reassure",
+    copy: "We answer the doubts that usually stop a homeowner from messaging, booking, or asking for a quote.",
+  },
+  {
+    step: "03",
+    title: "Move",
+    copy: "When the audience is ready, we give one clear action: DM, tap, book, claim, or request the next step.",
   },
 ];
 
@@ -1630,6 +1667,40 @@ function EnginePage({ page }: { page: EnginePageData }) {
               <div className="proof-flow">
                 {proofSystemFlow.map((item) => (
                   <div className="proof-flow-step" key={item.step}>
+                    <strong>{item.step}</strong>
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {page.slug === "story-system" ? (
+          <section className="story-client-section">
+            <div className="wrap">
+              <div className="center-head">
+                <div className="seclabel center">Client-facing delivery</div>
+                <h2>
+                  Warm audiences need <span className="o">direction.</span>
+                </h2>
+                <p className="sec-intro">
+                  The visible output is a steady stream of story content that keeps your market engaged, handles the
+                  reasons people hesitate, and guides interested viewers toward a single next step.
+                </p>
+              </div>
+              <div className="story-client-grid">
+                {storySystemClientSections.map((section) => (
+                  <article className="story-client-card" key={section.title}>
+                    <h3>{section.title}</h3>
+                    <p>{section.copy}</p>
+                  </article>
+                ))}
+              </div>
+              <div className="story-flow">
+                {storySystemFlow.map((item) => (
+                  <div className="story-flow-step" key={item.step}>
                     <strong>{item.step}</strong>
                     <h3>{item.title}</h3>
                     <p>{item.copy}</p>

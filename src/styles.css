@@ -2045,8 +2045,13 @@ footer {
   padding-top: 48px;
 }
 
+.story-client-section {
+  padding-top: 48px;
+}
+
 .ad-client-grid,
-.proof-client-grid {
+.proof-client-grid,
+.story-client-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
@@ -2056,21 +2061,26 @@ footer {
 .ad-client-card,
 .ad-flow-step,
 .proof-client-card,
-.proof-flow-step {
+.proof-flow-step,
+.story-client-card,
+.story-flow-step {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
 }
 
 .ad-client-card,
-.proof-client-card {
+.proof-client-card,
+.story-client-card {
   padding: 24px;
 }
 
 .ad-client-card h3,
 .ad-flow-step h3,
 .proof-client-card h3,
-.proof-flow-step h3 {
+.proof-flow-step h3,
+.story-client-card h3,
+.story-flow-step h3 {
   font-family: var(--disp);
   font-size: 18px;
   line-height: 1.15;
@@ -2080,14 +2090,17 @@ footer {
 .ad-client-card p,
 .ad-flow-step p,
 .proof-client-card p,
-.proof-flow-step p {
+.proof-flow-step p,
+.story-client-card p,
+.story-flow-step p {
   margin-top: 12px;
   color: var(--ink-dim);
   font-size: 14.5px;
 }
 
 .ad-flow,
-.proof-flow {
+.proof-flow,
+.story-flow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
@@ -2095,7 +2108,8 @@ footer {
 }
 
 .ad-flow-step,
-.proof-flow-step {
+.proof-flow-step,
+.story-flow-step {
   padding: 26px;
   background: linear-gradient(180deg, rgba(255, 92, 43, 0.06), var(--panel));
 }
@@ -2104,8 +2118,13 @@ footer {
   background: linear-gradient(180deg, rgba(255, 182, 39, 0.07), var(--panel));
 }
 
+.story-flow-step {
+  background: linear-gradient(180deg, rgba(0, 229, 195, 0.07), var(--panel));
+}
+
 .ad-flow-step strong,
-.proof-flow-step strong {
+.proof-flow-step strong,
+.story-flow-step strong {
   display: inline-grid;
   place-items: center;
   width: 34px;
@@ -2122,6 +2141,12 @@ footer {
   background: rgba(255, 182, 39, 0.11);
   border-color: rgba(255, 182, 39, 0.38);
   color: var(--sys-proof);
+}
+
+.story-flow-step strong {
+  background: rgba(0, 229, 195, 0.11);
+  border-color: rgba(0, 229, 195, 0.38);
+  color: var(--sys-story);
 }
 
 .related-system-grid {
@@ -2189,7 +2214,9 @@ footer {
   .ad-client-grid,
   .ad-flow,
   .proof-client-grid,
-  .proof-flow {
+  .proof-flow,
+  .story-client-grid,
+  .story-flow {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -2337,7 +2364,9 @@ footer {
   .ad-client-grid,
   .ad-flow,
   .proof-client-grid,
-  .proof-flow {
+  .proof-flow,
+  .story-client-grid,
+  .story-flow {
     grid-template-columns: 1fr;
   }
 
