@@ -170,17 +170,17 @@ const enginePages: EnginePageData[] = [
     eyebrow: "System 02",
     title: "Proof System",
     summary:
-      "The capture and credibility layer that turns finished jobs into evidence your market can trust before they ever speak to you.",
-    role: "Credibility · Capability",
+      "The credibility layer that makes your capability obvious the moment someone checks you out, turning finished work into visible evidence your market can trust.",
+    role: "Credibility · Capability · Trust",
     outcomes: [
-      "A simple proof-capture workflow for daily jobs",
-      "Before/after evidence turned into usable assets",
-      "A profile and content base that makes quality visible",
+      "A proof-dense profile that quickly answers: are these people legit?",
+      "Finished jobs turned into before/after, process, review, and outcome assets",
+      "A repeatable proof-capture rhythm that keeps your credibility current",
     ],
     details: [
-      "Most good trade businesses have proof sitting on phones, in WhatsApp chats, or nowhere at all. The Proof System makes capturing it simple and consistent.",
-      "Your finished work becomes the raw material for reels, ads, stories, landing pages, and sales conversations.",
-      "The system exists to answer the buyer's first question instantly: can this business actually deliver the result I want?",
+      "Most good trade businesses have proof scattered across phones, WhatsApp chats, and half-finished folders. The Proof System turns that raw evidence into a visible credibility surface.",
+      "When ad traffic, referrals, or searchers check your profile, they should immediately see real jobs, real outcomes, real reviews, and a clear next step.",
+      "The point is simple: reduce doubt before the first conversation. When your proof is obvious, prospects arrive warmer, trust faster, and ask better questions.",
     ],
     accent: "var(--sys-proof)",
   },
@@ -258,6 +258,43 @@ const adSystemFlow = [
     step: "03",
     title: "Create the next step",
     copy: "Warm prospects are directed into the right action: message, lead form, quote request, or booking path depending on the offer.",
+  },
+];
+
+const proofSystemClientSections = [
+  {
+    title: "First-screen credibility",
+    copy: "Your public profile needs to answer three questions fast: what you do, whether you do it well, and what someone should do next.",
+  },
+  {
+    title: "Real work, not stock polish",
+    copy: "We prioritise actual jobs, real before/afters, raw reviews, process footage, and visible standards over over-designed marketing graphics.",
+  },
+  {
+    title: "Proof captured from daily jobs",
+    copy: "Your team captures simple job evidence as work happens. We turn that into usable assets for ads, stories, profile content, and sales conversations.",
+  },
+  {
+    title: "A profile that supports paid traffic",
+    copy: "When someone taps an ad and checks you out, the profile confirms the promise instead of breaking belief and wasting the click.",
+  },
+];
+
+const proofSystemFlow = [
+  {
+    step: "01",
+    title: "Capture",
+    copy: "Before, process, after, review, and outcome evidence is collected from the jobs you are already doing.",
+  },
+  {
+    step: "02",
+    title: "Package",
+    copy: "The raw material becomes proof-led posts, reels, highlights, pinned content, ad assets, and conversion evidence.",
+  },
+  {
+    step: "03",
+    title: "Compound",
+    copy: "Every week adds more credibility, creating a proof wall competitors cannot fake quickly.",
   },
 ];
 
@@ -1559,6 +1596,40 @@ function EnginePage({ page }: { page: EnginePageData }) {
               <div className="ad-flow">
                 {adSystemFlow.map((item) => (
                   <div className="ad-flow-step" key={item.step}>
+                    <strong>{item.step}</strong>
+                    <h3>{item.title}</h3>
+                    <p>{item.copy}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {page.slug === "proof-system" ? (
+          <section className="proof-client-section">
+            <div className="wrap">
+              <div className="center-head">
+                <div className="seclabel center">Client-facing delivery</div>
+                <h2>
+                  Proof that makes trust <span className="o">instant.</span>
+                </h2>
+                <p className="sec-intro">
+                  The visible output is a credibility surface that supports every other part of the engine: ads land
+                  better, stories feel more believable, and conversion pages have evidence to lean on.
+                </p>
+              </div>
+              <div className="proof-client-grid">
+                {proofSystemClientSections.map((section) => (
+                  <article className="proof-client-card" key={section.title}>
+                    <h3>{section.title}</h3>
+                    <p>{section.copy}</p>
+                  </article>
+                ))}
+              </div>
+              <div className="proof-flow">
+                {proofSystemFlow.map((item) => (
+                  <div className="proof-flow-step" key={item.step}>
                     <strong>{item.step}</strong>
                     <h3>{item.title}</h3>
                     <p>{item.copy}</p>

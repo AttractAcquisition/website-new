@@ -2041,7 +2041,12 @@ footer {
   padding-top: 48px;
 }
 
-.ad-client-grid {
+.proof-client-section {
+  padding-top: 48px;
+}
+
+.ad-client-grid,
+.proof-client-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
@@ -2049,18 +2054,23 @@ footer {
 }
 
 .ad-client-card,
-.ad-flow-step {
+.ad-flow-step,
+.proof-client-card,
+.proof-flow-step {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
 }
 
-.ad-client-card {
+.ad-client-card,
+.proof-client-card {
   padding: 24px;
 }
 
 .ad-client-card h3,
-.ad-flow-step h3 {
+.ad-flow-step h3,
+.proof-client-card h3,
+.proof-flow-step h3 {
   font-family: var(--disp);
   font-size: 18px;
   line-height: 1.15;
@@ -2068,25 +2078,34 @@ footer {
 }
 
 .ad-client-card p,
-.ad-flow-step p {
+.ad-flow-step p,
+.proof-client-card p,
+.proof-flow-step p {
   margin-top: 12px;
   color: var(--ink-dim);
   font-size: 14.5px;
 }
 
-.ad-flow {
+.ad-flow,
+.proof-flow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   margin-top: 18px;
 }
 
-.ad-flow-step {
+.ad-flow-step,
+.proof-flow-step {
   padding: 26px;
   background: linear-gradient(180deg, rgba(255, 92, 43, 0.06), var(--panel));
 }
 
-.ad-flow-step strong {
+.proof-flow-step {
+  background: linear-gradient(180deg, rgba(255, 182, 39, 0.07), var(--panel));
+}
+
+.ad-flow-step strong,
+.proof-flow-step strong {
   display: inline-grid;
   place-items: center;
   width: 34px;
@@ -2097,6 +2116,12 @@ footer {
   border: 1px solid rgba(255, 92, 43, 0.35);
   color: var(--sys-ad);
   font-family: var(--mono);
+}
+
+.proof-flow-step strong {
+  background: rgba(255, 182, 39, 0.11);
+  border-color: rgba(255, 182, 39, 0.38);
+  color: var(--sys-proof);
 }
 
 .related-system-grid {
@@ -2162,7 +2187,9 @@ footer {
   }
 
   .ad-client-grid,
-  .ad-flow {
+  .ad-flow,
+  .proof-client-grid,
+  .proof-flow {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -2308,7 +2335,9 @@ footer {
   }
 
   .ad-client-grid,
-  .ad-flow {
+  .ad-flow,
+  .proof-client-grid,
+  .proof-flow {
     grid-template-columns: 1fr;
   }
 
